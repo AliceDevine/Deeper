@@ -1,0 +1,24 @@
+{
+    "name": "deeper/project",
+    "description": "DEEPer training programme project",
+    "license": "proprietary",
+    "config": {
+        "platform": {
+            "php":"7.4.9"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "require": {
+        "filp/whoops": "^2.9",
+        "monolog/monolog": "^2.2"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "symfony/var-dumper": "^5.1"
+    }
+}
