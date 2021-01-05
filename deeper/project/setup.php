@@ -1,17 +1,3 @@
 <?php
-
-$username = 'root';
-$password = 'root';
-
-try {
-    $dbh = new PDO(
-        'mysql:host=mysql;dbname=product',
-        $username,
-        $password,
-         );
-        
-   
-} catch (PDOException $e) {
-    // We could log this!
-    die('Unable to establish a database connection');
-}
+$db = new PDO('mysql:host=mysql;dbname=project;charset=utf8', 'root', 'root');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

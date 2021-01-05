@@ -1,0 +1,14 @@
+.navbar-brand {
+  font-family: $header-font;
+  color: $FernGreen;
+  &:hover {
+      color: $Jet;
+  }
+}
+.nav-link {
+    font-family: $body-font;
+    color: $FernGreen;
+    &:hover {
+        color: $Jet;
+    }
+}

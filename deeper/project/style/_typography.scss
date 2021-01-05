@@ -1,7 +1,19 @@
 h1, h2, h3, h4, h5, h6 {
   font-family: $header-font;
 }
+h1,h2 {
+  color: $FernGreen;
+}
+h3, h4, h5, h6 {
+  color: $BrickRed;
+}
 p {
   font-family: $body-font;
   font-size: 16px;
+}
+.small {
+  font-size: 12px;
+  &.informational {
+    font-style: italic;
+  }
 }

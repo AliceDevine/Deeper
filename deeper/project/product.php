@@ -1,18 +1,13 @@
 <?php
-
-$db = new PDO('mysql:host=mysql;dbname=project', 'root', 'root');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+include 'setup.php';
 if (isset($_GET['id'])) {
 
-    $statement = $db->prepare('SELECT `product`.`id`, `product`.`distillery`,`product`.`gin` FROM `product` where `id` = :id');
+    $statement = $db->prepare('SELECT `product`.`id`, `product`.`distillery`,`product`.`gin`,`product`.`image` FROM `product` where `id` = :id');
 
     $statement->execute([
         'id' => $_GET['id']
     ]);
     $results = $statement->fetchAll();
-
-    var_dump($results);
 
     $record = $results[0];
 }
@@ -21,45 +16,67 @@ if (isset($_GET['id'])) {
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/style.css">
-</head>
+<?php include 'template/head_includes.php' ?>
 
 <body>
-    <header>&nbsp;</header>
+    <?php include 'template/header_includes.php' ?>
     <main class="container-md">
         <section class="border p-3" style="padding: 20px;">
             <div class="row">
                 <div class="col-md-6 location-1">
-                    <div id="catursel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="images/cat1.jpg" alt="First cat">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="images/cat2.jpg" alt="Second cat">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="images/cat3.jpg" alt="Third cat">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="images/cat4.jpg" alt="Fourth cat">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="images/cat5.jpg" alt="Fifth cat">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#catursel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a>
-                        <a class="carousel-control-next" href="#catursel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>
-                    </div>
+                    <img class="img-fluid" src="<?=htmlentities($record['image'])?>">
                 </div>
                 <div class="col-md-6 location-2">
                     <h1><?php echo $record['gin']; ?></h1>
                     <p style="font-size:18px"><?php echo $record['distillery']; ?></p>
                     <p>Talk about tasty Gin</p>
-                    <a class="btn btn-primary" href="#">Leave a review</a>
+                    <button type="button" class="btn btn-green" data-toggle="modal" data-target="#review">
+                        Leave a review
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="review" tabindex="-1" role="dialog" aria-labelledby="Label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Your review</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="reviewerEmail">Your email address</label>
+                                            <input type="email" class="form-control" id="reviewerEmail" placeholder="name@example.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ginRating">Rate the gin from 1-5</label>
+                                            <select class="form-control" id="ginRating">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ginReview">Leave a review of the gin<br><span class="small informational">Don't forget to suggest your perfect serve!</span></label>
+                                            <textarea class="form-control" id="ginReview" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ginPicture">Taken a picture of your gin?</label>
+                                            <input type="file" class="form-control-file" id="ginPicture">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-green" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-green">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

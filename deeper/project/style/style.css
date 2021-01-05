@@ -2,21 +2,69 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Mountains of Christmas", cursive;
 }
 
+h1, h2 {
+  color: #587d52;
+}
+
+h3, h4, h5, h6 {
+  color: #c14953;
+}
+
 p {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
+}
+
+.small {
+  font-size: 12px;
+}
+
+.small.informational {
+  font-style: italic;
+}
+
+.navbar-brand {
+  font-family: "Mountains of Christmas", cursive;
+  color: #587d52;
+}
+
+.navbar-brand:hover {
+  color: #2d2d2a;
+}
+
+.nav-link {
+  font-family: "Open Sans", sans-serif;
+  color: #587d52;
+}
+
+.nav-link:hover {
+  color: #2d2d2a;
 }
 
 .border {
   border: solid 1px grey;
 }
 
-.button {
-  background-color: blue;
+.btn-green {
+  background-color: #587d52;
   color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
+}
+
+.btn-green:hover {
+  border: 1px solid #587d52;
+  background: white;
+  color: #587d52;
+}
+
+.btn-outline-green {
+  border: 1px solid #587d52;
+  background: white;
+  color: #587d52;
+}
+
+.btn-outline-green:hover {
+  background-color: #587d52;
+  color: white;
 }
 
 .fa-star {
