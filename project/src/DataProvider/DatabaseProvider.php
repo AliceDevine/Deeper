@@ -30,9 +30,17 @@ class DatabaseProvider
         }
     }
 
-    public function getProducts(string $searchTerm = ''): array
+    public function getProducts(): array
     {
-        $stmt = $this->dbh->prepare('SELECT id, gin FROM product WHERE gin LIKE :searchTerm');
+        $stmt = $this->dbh->prepare(
+            'SELECT * from product');
+        $stmt->execute();
+        // return $stmt->fetchAll(PDO::FETCH_CLASS, Product::class);
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Product::class);
+    }
+    public function searchProducts(string $searchTerm = ''): array
+    {
+        $stmt = $this->dbh->prepare('SELECT * FROM product WHERE gin LIKE :searchTerm or where distillery like :searchTerm');
         $stmt->execute([
             'searchTerm' => '%' . $searchTerm . '%'
         ]);
@@ -61,8 +69,12 @@ class DatabaseProvider
         ]);
 
         $productData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $hydrator = new EntityHydrator();
-        return $hydrator->hydrateProductWithCheckins($productData);
+        if (count($productData) == 0) {
+            header("Location: product_listing.php");
+            exit();
+        } else {
+            $hydrator = new EntityHydrator();
+            return $hydrator->hydrateProductWithCheckins($productData);
+        }
     }
 }

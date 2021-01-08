@@ -82,4 +82,12 @@ p {
 .rating {
   font-size: 20px;
 }
+
+.basic {
+  background-color: #587d52;
+  min-height: 20px;
+  margin-top: 40px;
+  padding: 40px;
+  color: #ffffff;
+}
 /*# sourceMappingURL=style.css.map */

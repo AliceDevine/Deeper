@@ -1,5 +1,6 @@
 <?php
     include 'setup.php';
+    $results = $dbProvider->getProducts();
 ?>
 
 <!DOCTYPE html>
@@ -11,18 +12,18 @@
         <div class="card-columns">
             <?php for ($i = 0; $i < count($results); $i++) { ?>
             <div class="card">
-                <img class="card-img-top" src="<?=htmlentities($results[$i]['image'])?>" alt="Card image cap">
+                <img class="card-img-top" src="<?=htmlentities($results[$i] -> image)?>" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title"><?=htmlentities($results[$i]['gin'])?></h5>
-                    <p class="card-text"><?=htmlentities($results[$i]['distillery'])?></p>
-                    <a href="product.php?id=<?=htmlentities($results[$i]['id'])?>" class="btn btn-green">Find out more</a>
+                    <h5 class="card-title"><?=htmlentities($results[$i] -> gin)?></h5>
+                    <p class="card-text"><?=htmlentities($results[$i] -> distillery)?></p>
+                    <a href="product.php?id=<?=htmlentities($results[$i] -> id)?>" class="btn btn-green">Find out more</a>
                 </div>
             </div>
             <?php } ?>
         </div>
     </main>
    
-    <footer></footer>
+    <?php include 'template/footer_includes.php' ?>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://kit.fontawesome.com/7ec1be5194.js" crossorigin="anonymous"></script>
@@ -72,5 +73,6 @@
             });
     </script>
 </body>
+
 
 </html>

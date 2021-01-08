@@ -1,4 +1,6 @@
-
+<footer class="basic">
+<p>This is a training project by Emma Parkinson</p>
+</footer>
 <!-- Optional JavaScript; choose one of the two! -->
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper)

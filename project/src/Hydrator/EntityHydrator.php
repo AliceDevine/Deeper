@@ -41,14 +41,15 @@ class EntityHydrator
             'image' => $data[0]['image'],
             'average_rating' => $data[0]['average_rating'],
         ];
-
         $product = $this->hydrateProduct($productData);
-
-        foreach ($data as $checkInData) {
-            $checkIn = $this->hydrateCheckIn($checkInData);
-            $product->addCheckin($checkIn);
+        if ($data[0]['id'] == null) {
+            // no checkins so do nothing
+        } else {
+            foreach ($data as $checkInData) {
+                $checkIn = $this->hydrateCheckIn($checkInData);
+                $product->addCheckin($checkIn);
+            }
         }
-
         return $product;
     }
 }
