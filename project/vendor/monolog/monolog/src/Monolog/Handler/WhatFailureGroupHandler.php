@@ -11,6 +11,8 @@
 
 namespace Monolog\Handler;
 
+use Throwable;
+
 /**
  * Forwards records to multiple handlers suppressing failures of each handler
  * and continuing through to give every handler a chance to succeed.
@@ -31,7 +33,7 @@ class WhatFailureGroupHandler extends GroupHandler
         foreach ($this->handlers as $handler) {
             try {
                 $handler->handle($record);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 // What failure?
             }
         }
@@ -55,7 +57,7 @@ class WhatFailureGroupHandler extends GroupHandler
         foreach ($this->handlers as $handler) {
             try {
                 $handler->handleBatch($records);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 // What failure?
             }
         }

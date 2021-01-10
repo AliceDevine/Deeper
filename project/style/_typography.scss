@@ -3,17 +3,36 @@ h1, h2, h3, h4, h5, h6 {
 }
 h1,h2 {
   color: $FernGreen;
+  margin-top: 2em;
 }
 h3, h4, h5, h6 {
+  margin-top: 1em;
   color: $BrickRed;
 }
 p {
   font-family: $body-font;
   font-size: 16px;
-}
-.small {
-  font-size: 12px;
-  &.informational {
-    font-style: italic;
+  &.small {
+    font-size: 14px;
+    &.informational {
+      font-style: italic;
+    }
   }
 }
+
+.project {
+  ul {
+    list-style-type: none;
+    & li {margin-bottom:15px;
+      & a {
+        color:$BrickRed;
+        text-decoration: underline;
+        & a :hover {
+          text-decoration: none;
+          color: black;
+        }
+      }
+    }
+  }
+}
+ 

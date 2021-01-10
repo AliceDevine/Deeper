@@ -14,6 +14,7 @@ namespace Monolog\Handler;
 use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
+use UnexpectedValueException;
 
 /**
  * Common syslog functionality
@@ -86,7 +87,7 @@ abstract class AbstractSyslogHandler extends AbstractProcessingHandler
         if (is_string($facility) && array_key_exists(strtolower($facility), $this->facilities)) {
             $facility = $this->facilities[strtolower($facility)];
         } elseif (!in_array($facility, array_values($this->facilities), true)) {
-            throw new \UnexpectedValueException('Unknown facility value "'.$facility.'" given');
+            throw new UnexpectedValueException('Unknown facility value "'.$facility.'" given');
         }
 
         $this->facility = $facility;

@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use LogicException;
 use Monolog\Processor\ProcessorInterface;
 
 /**
@@ -35,7 +36,7 @@ interface ProcessableHandlerInterface
      *
      * @psalm-return callable(array): array
      *
-     * @throws \LogicException In case the processor stack is empty
+     * @throws LogicException In case the processor stack is empty
      * @return callable
      */
     public function popProcessor(): callable;

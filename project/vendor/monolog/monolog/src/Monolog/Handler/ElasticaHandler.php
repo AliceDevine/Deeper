@@ -11,11 +11,13 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\ElasticaFormatter;
 use Monolog\Logger;
 use Elastica\Client;
 use Elastica\Exception\ExceptionInterface;
+use RuntimeException;
 
 /**
  * Elastic Search handler
@@ -82,7 +84,7 @@ class ElasticaHandler extends AbstractProcessingHandler
             return parent::setFormatter($formatter);
         }
 
-        throw new \InvalidArgumentException('ElasticaHandler is only compatible with ElasticaFormatter');
+        throw new InvalidArgumentException('ElasticaHandler is only compatible with ElasticaFormatter');
     }
 
     public function getOptions(): array
@@ -109,7 +111,7 @@ class ElasticaHandler extends AbstractProcessingHandler
 
     /**
      * Use Elasticsearch bulk API to send list of documents
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function bulkSend(array $documents): void
     {
@@ -117,7 +119,7 @@ class ElasticaHandler extends AbstractProcessingHandler
             $this->client->addDocuments($documents);
         } catch (ExceptionInterface $e) {
             if (!$this->options['ignore_error']) {
-                throw new \RuntimeException("Error sending messages to Elasticsearch", 0, $e);
+                throw new RuntimeException("Error sending messages to Elasticsearch", 0, $e);
             }
         }
     }

@@ -11,6 +11,8 @@
 
 namespace Monolog\Handler;
 
+use Throwable;
+
 /**
  * Base Handler class providing basic close() support as well as handleBatch
  *
@@ -39,7 +41,7 @@ abstract class Handler implements HandlerInterface
     {
         try {
             $this->close();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // do nothing
         }
     }

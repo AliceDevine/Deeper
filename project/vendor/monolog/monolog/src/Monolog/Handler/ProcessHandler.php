@@ -11,7 +11,9 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use Monolog\Logger;
+use UnexpectedValueException;
 
 /**
  * Stores to STDIN of any process, specified by a command.
@@ -63,15 +65,15 @@ class ProcessHandler extends AbstractProcessingHandler
      * @param  string|int                $level   The minimum logging level at which this handler will be triggered.
      * @param  bool                      $bubble  Whether the messages that are handled can bubble up the stack or not.
      * @param  string|null               $cwd     "Current working directory" (CWD) for the process to be executed in.
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(string $command, $level = Logger::DEBUG, bool $bubble = true, ?string $cwd = null)
     {
         if ($command === '') {
-            throw new \InvalidArgumentException('The command argument must be a non-empty string.');
+            throw new InvalidArgumentException('The command argument must be a non-empty string.');
         }
         if ($cwd === '') {
-            throw new \InvalidArgumentException('The optional CWD argument must be a non-empty string or null.');
+            throw new InvalidArgumentException('The optional CWD argument must be a non-empty string or null.');
         }
 
         parent::__construct($level, $bubble);
@@ -83,7 +85,7 @@ class ProcessHandler extends AbstractProcessingHandler
     /**
      * Writes the record down to the log of the implementing handler
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     protected function write(array $record): void
     {
@@ -93,7 +95,7 @@ class ProcessHandler extends AbstractProcessingHandler
 
         $errors = $this->readProcessErrors();
         if (empty($errors) === false) {
-            throw new \UnexpectedValueException(sprintf('Errors while writing to process: %s', $errors));
+            throw new UnexpectedValueException(sprintf('Errors while writing to process: %s', $errors));
         }
     }
 
@@ -125,19 +127,19 @@ class ProcessHandler extends AbstractProcessingHandler
     /**
      * Selects the STDERR stream, handles upcoming startup errors, and throws an exception, if any.
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     private function handleStartupErrors(): void
     {
         $selected = $this->selectErrorStream();
         if (false === $selected) {
-            throw new \UnexpectedValueException('Something went wrong while selecting a stream.');
+            throw new UnexpectedValueException('Something went wrong while selecting a stream.');
         }
 
         $errors = $this->readProcessErrors();
 
         if (is_resource($this->process) === false || empty($errors) === false) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf('The process "%s" could not be opened: ' . $errors, $this->command)
             );
         }

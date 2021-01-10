@@ -4,14 +4,27 @@
     <body>
         <?php include 'template/header_includes.php' ?>
         <main class="container-md">
-            <section id="information">
-                <h1>Gin 101</h1>
+            <section>
+                <h1>About this site.</h1>
+                <p>This site is part of a PHP learning project for Em Parkinson. You can find out more about her on:</p>
+                <div class="project">
+                    <ul>
+                        <li><a href="http://plumcow.co.uk">Plum Cow - Her freelance page & online CV</a></li>
+                        <li><a href="https://github.com/AliceDevine">Her github profile.</a></li>
+                        <li><a href="https://www.codewars.com/users/EmilyP">Her Codewars profile</a></li>
+                    </ul>
+                </div>
+            </section>
+            <section>
+                <h2>Gin 101</h2>
                 <p>Most of us love a good Gin & Tonic, gin has become ever more popular recently. But there's so much to learn about this historic spirit. It's traditionally made in Europe, and it's characterized by the use of juniper as a flavoring; also known as a botanical. The word "gin" is the English translation of the Dutch word "jenever" (pronounced yen-e-ver).</p>
                 <p>The main criteria for this aromatic, flavorsome spirit is a discernible juniper character, If the distillation doesn’t have juniper, or doesn’t have enough juniper, it is just a weird, flavored vodka.</p>
                 <p>Juniper is supported by other botanical characters; traditionally coriander, cassia, licorice, orris and other herbs. Gin is normally bottled at 80 to 90 proof and its flavors range from floral to citrus to fruity.</p>
                 <h2>How Gin Is Made</h2>
                 <p>Gin comes from the combination of alcohol typically distilled from fermented grain and a specific set of flavorings known as botanicals.</p>
                 <p>Essentially, the base spirit is made from grain. Some use a wheat-based spirit and others used barley, grape, sugar and various other bases.</p>
+            </section>
+            <section>
                 <h2>What Are the Different Ways to Make Gin?</h2>
                 <p>There are actually three ways to make gin. The most common (and oldest) way to make gin is to distill the fermented grain (malt wine), and then redistill it with juniper berries and the other botanicals you choose to flavor your gin with. This will give the gin a bold and distinct flavor.</p>
                 <p>Another way of flavoring the gin is to put your botanicals in a basket and hang it inside the alambique you are distilling your grain spirit with; this way the vapors of the alcohol are forced through the botanicals and will retain the flavors once condensed back into liquid, and the gin will acquire a more delicate and subtle flavor.</p>

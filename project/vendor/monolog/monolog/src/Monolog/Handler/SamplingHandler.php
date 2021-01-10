@@ -12,6 +12,8 @@
 namespace Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
+use RuntimeException;
+use UnexpectedValueException;
 
 /**
  * Sampling handler
@@ -54,7 +56,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
         $this->factor = $factor;
 
         if (!$this->handler instanceof HandlerInterface && !is_callable($this->handler)) {
-            throw new \RuntimeException("The given handler (".json_encode($this->handler).") is not a callable nor a Monolog\Handler\HandlerInterface object");
+            throw new RuntimeException("The given handler (".json_encode($this->handler).") is not a callable nor a Monolog\Handler\HandlerInterface object");
         }
     }
 
@@ -88,7 +90,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
         if (!$this->handler instanceof HandlerInterface) {
             $this->handler = ($this->handler)($record, $this);
             if (!$this->handler instanceof HandlerInterface) {
-                throw new \RuntimeException("The factory callable should return a HandlerInterface");
+                throw new RuntimeException("The factory callable should return a HandlerInterface");
             }
         }
 
@@ -107,7 +109,7 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
             return $this;
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
     }
 
     /**
@@ -120,6 +122,6 @@ class SamplingHandler extends AbstractHandler implements ProcessableHandlerInter
             return $handler->getFormatter();
         }
 
-        throw new \UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
+        throw new UnexpectedValueException('The nested handler of type '.get_class($handler).' does not support formatters.');
     }
 }

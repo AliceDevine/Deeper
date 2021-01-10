@@ -11,6 +11,8 @@
 
 namespace Monolog\Formatter;
 
+use DateTimeInterface;
+
 /**
  * Encodes message information into JSON in a format compatible with Loggly.
  *
@@ -35,7 +37,7 @@ class LogglyFormatter extends JsonFormatter
      */
     public function format(array $record): string
     {
-        if (isset($record["datetime"]) && ($record["datetime"] instanceof \DateTimeInterface)) {
+        if (isset($record["datetime"]) && ($record["datetime"] instanceof DateTimeInterface)) {
             $record["timestamp"] = $record["datetime"]->format("Y-m-d\TH:i:s.uO");
             unset($record["datetime"]);
         }

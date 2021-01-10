@@ -12,6 +12,7 @@
 namespace Monolog;
 
 use DateTimeZone;
+use LogicException;
 use Monolog\Handler\HandlerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\InvalidArgumentException;
@@ -184,12 +185,12 @@ class Logger implements LoggerInterface, ResettableInterface
     /**
      * Pops a handler from the stack
      *
-     * @throws \LogicException If empty handler stack
+     * @throws LogicException If empty handler stack
      */
     public function popHandler(): HandlerInterface
     {
         if (!$this->handlers) {
-            throw new \LogicException('You tried to pop from an empty handler stack.');
+            throw new LogicException('You tried to pop from an empty handler stack.');
         }
 
         return array_shift($this->handlers);
@@ -233,13 +234,13 @@ class Logger implements LoggerInterface, ResettableInterface
     /**
      * Removes the processor on top of the stack and returns it.
      *
-     * @throws \LogicException If empty processor stack
+     * @throws LogicException If empty processor stack
      * @return callable
      */
     public function popProcessor(): callable
     {
         if (!$this->processors) {
-            throw new \LogicException('You tried to pop from an empty processor stack.');
+            throw new LogicException('You tried to pop from an empty processor stack.');
         }
 
         return array_shift($this->processors);
@@ -382,7 +383,7 @@ class Logger implements LoggerInterface, ResettableInterface
     /**
      * Gets the name of the logging level.
      *
-     * @throws \Psr\Log\InvalidArgumentException If level is not defined
+     * @throws InvalidArgumentException If level is not defined
      */
     public static function getLevelName(int $level): string
     {
@@ -397,7 +398,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * Converts PSR-3 levels to Monolog ones if necessary
      *
      * @param  string|int                        $level Level number (monolog) or name (PSR-3)
-     * @throws \Psr\Log\InvalidArgumentException If level is not defined
+     * @throws InvalidArgumentException If level is not defined
      */
     public static function toMonologLevel($level): int
     {

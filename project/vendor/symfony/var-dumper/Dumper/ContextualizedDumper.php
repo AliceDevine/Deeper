@@ -13,6 +13,7 @@ namespace Symfony\Component\VarDumper\Dumper;
 
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface;
+use function get_class;
 
 /**
  * @author Kévin Thérage <therage.kevin@gmail.com>
@@ -35,7 +36,7 @@ class ContextualizedDumper implements DataDumperInterface
     {
         $context = [];
         foreach ($this->contextProviders as $contextProvider) {
-            $context[\get_class($contextProvider)] = $contextProvider->getContext();
+            $context[get_class($contextProvider)] = $contextProvider->getContext();
         }
 
         $this->wrappedDumper->dump($data->withContext($context));

@@ -13,6 +13,7 @@ namespace Monolog;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Throwable;
 
 /**
  * Monolog error handler
@@ -75,7 +76,7 @@ class ErrorHandler
 
     public function registerExceptionHandler($levelMap = [], $callPrevious = true): self
     {
-        $prev = set_exception_handler(function (\Throwable $e): void {
+        $prev = set_exception_handler(function (Throwable $e): void {
             $this->handleException($e);
         });
         $this->uncaughtExceptionLevelMap = $levelMap;
@@ -148,7 +149,7 @@ class ErrorHandler
         ];
     }
 
-    private function handleException(\Throwable $e)
+    private function handleException(Throwable $e)
     {
         $level = LogLevel::ERROR;
         foreach ($this->uncaughtExceptionLevelMap as $class => $candidate) {

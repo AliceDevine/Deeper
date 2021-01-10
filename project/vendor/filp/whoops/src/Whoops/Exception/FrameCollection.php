@@ -9,6 +9,7 @@ namespace Whoops\Exception;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use Exception;
 use IteratorAggregate;
 use Serializable;
 use UnexpectedValueException;
@@ -118,7 +119,7 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      */
     public function offsetSet($offset, $value)
     {
-        throw new \Exception(__CLASS__ . ' is read only');
+        throw new Exception(__CLASS__ . ' is read only');
     }
 
     /**
@@ -127,7 +128,7 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      */
     public function offsetUnset($offset)
     {
-        throw new \Exception(__CLASS__ . ' is read only');
+        throw new Exception(__CLASS__ . ' is read only');
     }
 
     /**

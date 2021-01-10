@@ -11,6 +11,8 @@
 
 namespace Monolog\Handler;
 
+use const PHP_SAPI;
+
 trait WebRequestRecognizerTrait
 {
     /**
@@ -19,6 +21,6 @@ trait WebRequestRecognizerTrait
      */
     protected function isWebRequest(): bool
     {
-        return 'cli' !== \PHP_SAPI && 'phpdbg' !== \PHP_SAPI;
+        return 'cli' !== PHP_SAPI && 'phpdbg' !== PHP_SAPI;
     }
 }

@@ -16,6 +16,11 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
 use Twig\Template;
+use function count;
+use function strlen;
+use const DEBUG_BACKTRACE_IGNORE_ARGS;
+use const DEBUG_BACKTRACE_PROVIDE_OBJECT;
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Tries to provide context from sources (class name, file, line, code excerpt, ...).
@@ -40,7 +45,7 @@ final class SourceContextProvider implements ContextProviderInterface
 
     public function getContext(): ?array
     {
-        $trace = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS, $this->limit);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, $this->limit);
 
         $file = $trace[1]['file'];
         $line = $trace[1]['line'];
@@ -74,7 +79,7 @@ final class SourceContextProvider implements ContextProviderInterface
                                 $src = explode("\n", $src);
                                 $fileExcerpt = [];
 
-                                for ($i = max($line - 3, 1), $max = min($line + 3, \count($src)); $i <= $max; ++$i) {
+                                for ($i = max($line - 3, 1), $max = min($line + 3, count($src)); $i <= $max; ++$i) {
                                     $fileExcerpt[] = '<li'.($i === $line ? ' class="selected"' : '').'><code>'.$this->htmlEncode($src[$i - 1]).'</code></li>';
                                 }
 
@@ -99,7 +104,7 @@ final class SourceContextProvider implements ContextProviderInterface
         if (null !== $this->projectDir) {
             $context['project_dir'] = $this->projectDir;
             if (0 === strpos($file, $this->projectDir)) {
-                $context['file_relative'] = ltrim(substr($file, \strlen($this->projectDir)), \DIRECTORY_SEPARATOR);
+                $context['file_relative'] = ltrim(substr($file, strlen($this->projectDir)), DIRECTORY_SEPARATOR);
             }
         }
 

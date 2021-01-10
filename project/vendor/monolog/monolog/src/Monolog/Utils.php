@@ -11,13 +11,16 @@
 
 namespace Monolog;
 
+use RuntimeException;
+use function get_class;
+
 final class Utils
 {
     const DEFAULT_JSON_FLAGS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR;
 
     public static function getClass(object $object): string
     {
-        $class = \get_class($object);
+        $class = get_class($object);
 
         return 'c' === $class[0] && 0 === strpos($class, "class@anonymous\0") ? get_parent_class($class).'@anonymous' : $class;
     }
@@ -65,7 +68,7 @@ final class Utils
      * @param  mixed             $data
      * @param  int               $encodeFlags  flags to pass to json encode, defaults to DEFAULT_JSON_FLAGS
      * @param  bool              $ignoreErrors whether to ignore encoding errors or to throw on error, when ignored and the encoding fails, "null" is returned which is valid json for null
-     * @throws \RuntimeException if encoding fails and errors are not ignored
+     * @throws RuntimeException if encoding fails and errors are not ignored
      * @return string            when errors are ignored and the encoding fails, "null" is returned which is valid json for null
      */
     public static function jsonEncode($data, ?int $encodeFlags = null, bool $ignoreErrors = false): string
@@ -102,7 +105,7 @@ final class Utils
      * @param  int               $code        return code of json_last_error function
      * @param  mixed             $data        data that was meant to be encoded
      * @param  int               $encodeFlags flags to pass to json encode, defaults to JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION
-     * @throws \RuntimeException if failure can't be corrected
+     * @throws RuntimeException if failure can't be corrected
      * @return string            JSON encoded data after error correction
      */
     public static function handleJsonError(int $code, $data, ?int $encodeFlags = null): string
@@ -137,7 +140,7 @@ final class Utils
      *
      * @param  int               $code return code of json_last_error function
      * @param  mixed             $data data that was meant to be encoded
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private static function throwEncodeError(int $code, $data): void
     {
@@ -158,7 +161,7 @@ final class Utils
                 $msg = 'Unknown error';
         }
 
-        throw new \RuntimeException('JSON encoding failed: '.$msg.'. Encoding: '.var_export($data, true));
+        throw new RuntimeException('JSON encoding failed: '.$msg.'. Encoding: '.var_export($data, true));
     }
 
     /**

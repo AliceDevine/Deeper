@@ -11,7 +11,10 @@
 
 namespace Monolog\Handler;
 
+use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use Monolog\Logger;
 use Monolog\Handler\SyslogUdp\UdpSocket;
 
@@ -29,8 +32,8 @@ class SyslogUdpHandler extends AbstractSyslogHandler
 
     private $dateFormats = array(
         self::RFC3164 => 'M d H:i:s',
-        self::RFC5424 => \DateTime::RFC3339,
-        self::RFC5424e => \DateTime::RFC3339_EXTENDED,
+        self::RFC5424 => DateTime::RFC3339,
+        self::RFC5424e => DateTime::RFC3339_EXTENDED,
     );
 
     protected $socket;
@@ -96,8 +99,8 @@ class SyslogUdpHandler extends AbstractSyslogHandler
             $hostname = '-';
         }
 
-        if ($this->rfc === self::RFC3164 && ($datetime instanceof \DateTimeImmutable || $datetime instanceof \DateTime)) {
-            $datetime->setTimezone(new \DateTimeZone('UTC'));
+        if ($this->rfc === self::RFC3164 && ($datetime instanceof DateTimeImmutable || $datetime instanceof DateTime)) {
+            $datetime->setTimezone(new DateTimeZone('UTC'));
         }
         $date = $datetime->format($this->dateFormats[$this->rfc]);
 

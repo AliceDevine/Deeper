@@ -11,6 +11,8 @@
 
 namespace Monolog\Formatter;
 
+use BadMethodCallException;
+use DateTimeInterface;
 use Monolog\Logger;
 
 /**
@@ -111,7 +113,7 @@ class WildfireFormatter extends NormalizerFormatter
      */
     public function formatBatch(array $records)
     {
-        throw new \BadMethodCallException('Batch formatting does not make sense for the WildfireFormatter');
+        throw new BadMethodCallException('Batch formatting does not make sense for the WildfireFormatter');
     }
 
     /**
@@ -120,7 +122,7 @@ class WildfireFormatter extends NormalizerFormatter
      */
     protected function normalize($data, int $depth = 0)
     {
-        if (is_object($data) && !$data instanceof \DateTimeInterface) {
+        if (is_object($data) && !$data instanceof DateTimeInterface) {
             return $data;
         }
 

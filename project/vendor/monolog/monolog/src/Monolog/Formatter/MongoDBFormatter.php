@@ -11,8 +11,10 @@
 
 namespace Monolog\Formatter;
 
+use DateTimeInterface;
 use MongoDB\BSON\UTCDateTime;
 use Monolog\Utils;
+use Throwable;
 
 /**
  * Formats a record for use with the MongoDBHandler.
@@ -64,9 +66,9 @@ class MongoDBFormatter implements FormatterInterface
     {
         if ($this->maxNestingLevel == 0 || $nestingLevel <= $this->maxNestingLevel) {
             foreach ($record as $name => $value) {
-                if ($value instanceof \DateTimeInterface) {
+                if ($value instanceof DateTimeInterface) {
                     $record[$name] = $this->formatDate($value, $nestingLevel + 1);
-                } elseif ($value instanceof \Throwable) {
+                } elseif ($value instanceof Throwable) {
                     $record[$name] = $this->formatException($value, $nestingLevel + 1);
                 } elseif (is_array($value)) {
                     $record[$name] = $this->formatArray($value, $nestingLevel + 1);
@@ -89,7 +91,7 @@ class MongoDBFormatter implements FormatterInterface
         return $this->formatArray($objectVars, $nestingLevel);
     }
 
-    protected function formatException(\Throwable $exception, int $nestingLevel)
+    protected function formatException(Throwable $exception, int $nestingLevel)
     {
         $formattedException = [
             'class' => Utils::getClass($exception),
@@ -107,7 +109,7 @@ class MongoDBFormatter implements FormatterInterface
         return $this->formatArray($formattedException, $nestingLevel);
     }
 
-    protected function formatDate(\DateTimeInterface $value, int $nestingLevel): UTCDateTime
+    protected function formatDate(DateTimeInterface $value, int $nestingLevel): UTCDateTime
     {
         if ($this->isLegacyMongoExt) {
             return $this->legacyGetMongoDbDateTime($value);
@@ -116,7 +118,7 @@ class MongoDBFormatter implements FormatterInterface
         return $this->getMongoDbDateTime($value);
     }
 
-    private function getMongoDbDateTime(\DateTimeInterface $value): UTCDateTime
+    private function getMongoDbDateTime(DateTimeInterface $value): UTCDateTime
     {
         return new UTCDateTime((int) floor(((float) $value->format('U.u')) * 1000));
     }
@@ -128,7 +130,7 @@ class MongoDBFormatter implements FormatterInterface
      *
      * It can probably be removed in 2.1 or later once MongoDB's 1.2 is released and widely adopted
      */
-    private function legacyGetMongoDbDateTime(\DateTimeInterface $value): UTCDateTime
+    private function legacyGetMongoDbDateTime(DateTimeInterface $value): UTCDateTime
     {
         $milliseconds = floor(((float) $value->format('U.u')) * 1000);
 

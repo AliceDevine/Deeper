@@ -11,8 +11,12 @@
 
 namespace Monolog\Formatter;
 
+use DateTimeInterface;
+use JsonSerializable;
 use Monolog\DateTimeImmutable;
 use Monolog\Utils;
+use RuntimeException;
+use SoapFault;
 use Throwable;
 
 /**
@@ -41,7 +45,7 @@ class NormalizerFormatter implements FormatterInterface
     {
         $this->dateFormat = null === $dateFormat ? static::SIMPLE_DATE : $dateFormat;
         if (!function_exists('json_encode')) {
-            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s NormalizerFormatter');
+            throw new RuntimeException('PHP\'s json extension is required to use Monolog\'s NormalizerFormatter');
         }
     }
 
@@ -160,7 +164,7 @@ class NormalizerFormatter implements FormatterInterface
             return $normalized;
         }
 
-        if ($data instanceof \DateTimeInterface) {
+        if ($data instanceof DateTimeInterface) {
             return $this->formatDate($data);
         }
 
@@ -169,7 +173,7 @@ class NormalizerFormatter implements FormatterInterface
                 return $this->normalizeException($data, $depth);
             }
 
-            if ($data instanceof \JsonSerializable) {
+            if ($data instanceof JsonSerializable) {
                 $value = $data->jsonSerialize();
             } elseif (method_exists($data, '__toString')) {
                 $value = $data->__toString();
@@ -193,7 +197,7 @@ class NormalizerFormatter implements FormatterInterface
      */
     protected function normalizeException(Throwable $e, int $depth = 0)
     {
-        if ($e instanceof \JsonSerializable) {
+        if ($e instanceof JsonSerializable) {
             return (array) $e->jsonSerialize();
         }
 
@@ -204,7 +208,7 @@ class NormalizerFormatter implements FormatterInterface
             'file' => $e->getFile().':'.$e->getLine(),
         ];
 
-        if ($e instanceof \SoapFault) {
+        if ($e instanceof SoapFault) {
             if (isset($e->faultcode)) {
                 $data['faultcode'] = $e->faultcode;
             }
@@ -240,7 +244,7 @@ class NormalizerFormatter implements FormatterInterface
      * Return the JSON representation of a value
      *
      * @param  mixed             $data
-     * @throws \RuntimeException if encoding fails and errors are not ignored
+     * @throws RuntimeException if encoding fails and errors are not ignored
      * @return string            if encoding fails and ignoreErrors is true 'null' is returned
      */
     protected function toJson($data, bool $ignoreErrors = false): string
@@ -248,7 +252,7 @@ class NormalizerFormatter implements FormatterInterface
         return Utils::jsonEncode($data, $this->jsonEncodeOptions, $ignoreErrors);
     }
 
-    protected function formatDate(\DateTimeInterface $date)
+    protected function formatDate(DateTimeInterface $date)
     {
         // in case the date format isn't custom then we defer to the custom DateTimeImmutable
         // formatting logic, which will pick the right format based on whether useMicroseconds is on

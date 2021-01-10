@@ -12,6 +12,8 @@
 namespace Monolog\Formatter;
 
 use Monolog\Utils;
+use SoapFault;
+use Throwable;
 
 /**
  * Formats incoming records into a one-line string
@@ -126,7 +128,7 @@ class LineFormatter extends NormalizerFormatter
         return $this->replaceNewlines($this->convertToString($value));
     }
 
-    protected function normalizeException(\Throwable $e, int $depth = 0): string
+    protected function normalizeException(Throwable $e, int $depth = 0): string
     {
         $str = $this->formatException($e);
 
@@ -165,10 +167,10 @@ class LineFormatter extends NormalizerFormatter
         return str_replace(["\r\n", "\r", "\n"], ' ', $str);
     }
 
-    private function formatException(\Throwable $e): string
+    private function formatException(Throwable $e): string
     {
         $str = '[object] (' . Utils::getClass($e) . '(code: ' . $e->getCode();
-        if ($e instanceof \SoapFault) {
+        if ($e instanceof SoapFault) {
             if (isset($e->faultcode)) {
                 $str .= ' faultcode: ' . $e->faultcode;
             }

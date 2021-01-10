@@ -4,9 +4,11 @@ h1, h2, h3, h4, h5, h6 {
 
 h1, h2 {
   color: #587d52;
+  margin-top: 2em;
 }
 
 h3, h4, h5, h6 {
+  margin-top: 1em;
   color: #c14953;
 }
 
@@ -15,12 +17,30 @@ p {
   font-size: 16px;
 }
 
-.small {
-  font-size: 12px;
+p.small {
+  font-size: 14px;
 }
 
-.small.informational {
+p.small.informational {
   font-style: italic;
+}
+
+.project ul {
+  list-style-type: none;
+}
+
+.project ul li {
+  margin-bottom: 15px;
+}
+
+.project ul li a {
+  color: #c14953;
+  text-decoration: underline;
+}
+
+.project ul li a a :hover {
+  text-decoration: none;
+  color: black;
 }
 
 .navbar-brand {

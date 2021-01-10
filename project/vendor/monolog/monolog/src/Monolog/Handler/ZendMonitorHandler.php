@@ -14,6 +14,9 @@ namespace Monolog\Handler;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\NormalizerFormatter;
 use Monolog\Logger;
+use const ZEND_MONITOR_EVENT_SEVERITY_ERROR;
+use const ZEND_MONITOR_EVENT_SEVERITY_INFO;
+use const ZEND_MONITOR_EVENT_SEVERITY_WARNING;
 
 /**
  * Handler sending logs to Zend Monitor
@@ -44,14 +47,14 @@ class ZendMonitorHandler extends AbstractProcessingHandler
         }
         //zend monitor constants are not defined if zend monitor is not enabled.
         $this->levelMap = [
-            Logger::DEBUG     => \ZEND_MONITOR_EVENT_SEVERITY_INFO,
-            Logger::INFO      => \ZEND_MONITOR_EVENT_SEVERITY_INFO,
-            Logger::NOTICE    => \ZEND_MONITOR_EVENT_SEVERITY_INFO,
-            Logger::WARNING   => \ZEND_MONITOR_EVENT_SEVERITY_WARNING,
-            Logger::ERROR     => \ZEND_MONITOR_EVENT_SEVERITY_ERROR,
-            Logger::CRITICAL  => \ZEND_MONITOR_EVENT_SEVERITY_ERROR,
-            Logger::ALERT     => \ZEND_MONITOR_EVENT_SEVERITY_ERROR,
-            Logger::EMERGENCY => \ZEND_MONITOR_EVENT_SEVERITY_ERROR,
+            Logger::DEBUG     => ZEND_MONITOR_EVENT_SEVERITY_INFO,
+            Logger::INFO      => ZEND_MONITOR_EVENT_SEVERITY_INFO,
+            Logger::NOTICE    => ZEND_MONITOR_EVENT_SEVERITY_INFO,
+            Logger::WARNING   => ZEND_MONITOR_EVENT_SEVERITY_WARNING,
+            Logger::ERROR     => ZEND_MONITOR_EVENT_SEVERITY_ERROR,
+            Logger::CRITICAL  => ZEND_MONITOR_EVENT_SEVERITY_ERROR,
+            Logger::ALERT     => ZEND_MONITOR_EVENT_SEVERITY_ERROR,
+            Logger::EMERGENCY => ZEND_MONITOR_EVENT_SEVERITY_ERROR,
         ];
         parent::__construct($level, $bubble);
     }

@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use LogicException;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Monolog\Formatter\FormatterInterface;
@@ -89,7 +90,7 @@ class PsrHandler extends AbstractHandler implements FormattableHandlerInterface
     public function getFormatter(): FormatterInterface
     {
         if (!$this->formatter) {
-            throw new \LogicException('No formatter has been set and this handler does not have a default formatter');
+            throw new LogicException('No formatter has been set and this handler does not have a default formatter');
         }
 
         return $this->formatter;

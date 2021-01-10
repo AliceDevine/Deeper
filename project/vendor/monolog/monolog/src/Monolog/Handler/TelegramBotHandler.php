@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use RuntimeException;
 use Monolog\Logger;
 
@@ -101,7 +102,7 @@ class TelegramBotHandler extends AbstractProcessingHandler
     public function setParseMode(string $parseMode = null): self
     {
         if ($parseMode !== null && !in_array($parseMode, self::AVAILABLE_PARSE_MODES)) {
-            throw new \InvalidArgumentException('Unknown parseMode, use one of these: ' . implode(', ', self::AVAILABLE_PARSE_MODES) . '.');
+            throw new InvalidArgumentException('Unknown parseMode, use one of these: ' . implode(', ', self::AVAILABLE_PARSE_MODES) . '.');
         }
 
         $this->parseMode = $parseMode;

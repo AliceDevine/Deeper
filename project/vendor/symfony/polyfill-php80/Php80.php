@@ -11,6 +11,20 @@
 
 namespace Symfony\Polyfill\Php80;
 
+use __PHP_Incomplete_Class;
+use TypeError;
+use function get_class;
+use function is_array;
+use function is_bool;
+use function is_float;
+use function is_int;
+use function is_object;
+use function is_resource;
+use function is_string;
+use function strlen;
+use function strncmp;
+use function substr_compare;
+
 /**
  * @author Ion Bazan <ion.bazan@gmail.com>
  * @author Nico Oelgart <nicoswd@gmail.com>
@@ -29,13 +43,13 @@ final class Php80
     {
         switch (true) {
             case null === $value: return 'null';
-            case \is_bool($value): return 'bool';
-            case \is_string($value): return 'string';
-            case \is_array($value): return 'array';
-            case \is_int($value): return 'int';
-            case \is_float($value): return 'float';
-            case \is_object($value): break;
-            case $value instanceof \__PHP_Incomplete_Class: return '__PHP_Incomplete_Class';
+            case is_bool($value): return 'bool';
+            case is_string($value): return 'string';
+            case is_array($value): return 'array';
+            case is_int($value): return 'int';
+            case is_float($value): return 'float';
+            case is_object($value): break;
+            case $value instanceof __PHP_Incomplete_Class: return '__PHP_Incomplete_Class';
             default:
                 if (null === $type = @get_resource_type($value)) {
                     return 'unknown';
@@ -48,7 +62,7 @@ final class Php80
                 return "resource ($type)";
         }
 
-        $class = \get_class($value);
+        $class = get_class($value);
 
         if (false === strpos($class, '@')) {
             return $class;
@@ -59,8 +73,8 @@ final class Php80
 
     public static function get_resource_id($res): int
     {
-        if (!\is_resource($res) && null === @get_resource_type($res)) {
-            throw new \TypeError(sprintf('Argument 1 passed to get_resource_id() must be of the type resource, %s given', get_debug_type($res)));
+        if (!is_resource($res) && null === @get_resource_type($res)) {
+            throw new TypeError(sprintf('Argument 1 passed to get_resource_id() must be of the type resource, %s given', get_debug_type($res)));
         }
 
         return (int) $res;
@@ -95,11 +109,11 @@ final class Php80
 
     public static function str_starts_with(string $haystack, string $needle): bool
     {
-        return 0 === \strncmp($haystack, $needle, \strlen($needle));
+        return 0 === strncmp($haystack, $needle, strlen($needle));
     }
 
     public static function str_ends_with(string $haystack, string $needle): bool
     {
-        return '' === $needle || ('' !== $haystack && 0 === \substr_compare($haystack, $needle, -\strlen($needle)));
+        return '' === $needle || ('' !== $haystack && 0 === substr_compare($haystack, $needle, -strlen($needle)));
     }
 }

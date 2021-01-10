@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
 use MongoDB\Client;
@@ -49,7 +50,7 @@ class MongoDBHandler extends AbstractProcessingHandler
     public function __construct($mongodb, string $database, string $collection, $level = Logger::DEBUG, bool $bubble = true)
     {
         if (!($mongodb instanceof Client || $mongodb instanceof Manager)) {
-            throw new \InvalidArgumentException('MongoDB\Client or MongoDB\Driver\Manager instance required');
+            throw new InvalidArgumentException('MongoDB\Client or MongoDB\Driver\Manager instance required');
         }
 
         if ($mongodb instanceof Client) {

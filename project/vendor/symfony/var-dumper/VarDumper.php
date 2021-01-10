@@ -23,6 +23,9 @@ use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextualizedDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Dumper\ServerDumper;
+use function in_array;
+use const PHP_SAPI;
+use const PHP_URL_SCHEME;
 
 // Load the global dump() function
 require_once __DIR__.'/Resources/functions/dump.php';
@@ -71,13 +74,13 @@ class VarDumper
                 $dumper = new CliDumper();
                 break;
             case 'server' === $format:
-            case 'tcp' === parse_url($format, \PHP_URL_SCHEME):
+            case 'tcp' === parse_url($format, PHP_URL_SCHEME):
                 $host = 'server' === $format ? $_SERVER['VAR_DUMPER_SERVER'] ?? '127.0.0.1:9912' : $format;
-                $dumper = \in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? new CliDumper() : new HtmlDumper();
+                $dumper = in_array(PHP_SAPI, ['cli', 'phpdbg'], true) ? new CliDumper() : new HtmlDumper();
                 $dumper = new ServerDumper($host, $dumper, self::getDefaultContextProviders());
                 break;
             default:
-                $dumper = \in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? new CliDumper() : new HtmlDumper();
+                $dumper = in_array(PHP_SAPI, ['cli', 'phpdbg'], true) ? new CliDumper() : new HtmlDumper();
         }
 
         if (!$dumper instanceof ServerDumper) {
@@ -93,7 +96,7 @@ class VarDumper
     {
         $contextProviders = [];
 
-        if (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) && (class_exists(Request::class))) {
+        if (!in_array(PHP_SAPI, ['cli', 'phpdbg'], true) && (class_exists(Request::class))) {
             $requestStack = new RequestStack();
             $requestStack->push(Request::createFromGlobals());
             $contextProviders['request'] = new RequestContextProvider($requestStack);

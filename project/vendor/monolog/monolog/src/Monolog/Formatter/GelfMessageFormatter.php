@@ -11,6 +11,7 @@
 
 namespace Monolog\Formatter;
 
+use InvalidArgumentException;
 use Monolog\Logger;
 use Gelf\Message;
 use Monolog\Utils;
@@ -83,7 +84,7 @@ class GelfMessageFormatter extends NormalizerFormatter
         }
 
         if (!isset($record['datetime'], $record['message'], $record['level'])) {
-            throw new \InvalidArgumentException('The record should at least contain datetime, message and level keys, '.var_export($record, true).' given');
+            throw new InvalidArgumentException('The record should at least contain datetime, message and level keys, '.var_export($record, true).' given');
         }
 
         $message = new Message();

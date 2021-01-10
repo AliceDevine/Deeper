@@ -11,6 +11,7 @@
 
 namespace Monolog\Handler;
 
+use LogicException;
 use Monolog\ResettableInterface;
 use Monolog\Formatter\FormatterInterface;
 
@@ -86,7 +87,7 @@ class HandlerWrapper implements HandlerInterface, ProcessableHandlerInterface, F
             return $this;
         }
 
-        throw new \LogicException('The wrapped handler does not implement ' . ProcessableHandlerInterface::class);
+        throw new LogicException('The wrapped handler does not implement ' . ProcessableHandlerInterface::class);
     }
 
     /**
@@ -98,7 +99,7 @@ class HandlerWrapper implements HandlerInterface, ProcessableHandlerInterface, F
             return $this->handler->popProcessor();
         }
 
-        throw new \LogicException('The wrapped handler does not implement ' . ProcessableHandlerInterface::class);
+        throw new LogicException('The wrapped handler does not implement ' . ProcessableHandlerInterface::class);
     }
 
     /**
@@ -112,7 +113,7 @@ class HandlerWrapper implements HandlerInterface, ProcessableHandlerInterface, F
             return $this;
         }
 
-        throw new \LogicException('The wrapped handler does not implement ' . FormattableHandlerInterface::class);
+        throw new LogicException('The wrapped handler does not implement ' . FormattableHandlerInterface::class);
     }
 
     /**
@@ -124,7 +125,7 @@ class HandlerWrapper implements HandlerInterface, ProcessableHandlerInterface, F
             return $this->handler->getFormatter();
         }
 
-        throw new \LogicException('The wrapped handler does not implement ' . FormattableHandlerInterface::class);
+        throw new LogicException('The wrapped handler does not implement ' . FormattableHandlerInterface::class);
     }
 
     public function reset()

@@ -11,10 +11,12 @@
 
 namespace Monolog\Handler;
 
+use DateTimeImmutable;
 use Monolog\Formatter\ChromePHPFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger;
 use Monolog\Utils;
+use RuntimeException;
 
 /**
  * Handler sending logs to the ChromePHP extension (http://www.chromephp.com/)
@@ -69,7 +71,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
     {
         parent::__construct($level, $bubble);
         if (!function_exists('json_encode')) {
-            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s ChromePHPHandler');
+            throw new RuntimeException('PHP\'s json extension is required to use Monolog\'s ChromePHPHandler');
         }
     }
 
@@ -156,7 +158,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
                 'level' => Logger::WARNING,
                 'level_name' => Logger::getLevelName(Logger::WARNING),
                 'channel' => 'monolog',
-                'datetime' => new \DateTimeImmutable(),
+                'datetime' => new DateTimeImmutable(),
                 'extra' => [],
             ];
             self::$json['rows'][count(self::$json['rows']) - 1] = $this->getFormatter()->format($record);

@@ -11,9 +11,12 @@
 
 namespace Monolog\Handler;
 
+use InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger;
+use Predis\Client;
+use Redis;
 
 /**
  * Logs to a Redis key using rpush
@@ -33,7 +36,7 @@ class RedisHandler extends AbstractProcessingHandler
     protected $capSize;
 
     /**
-     * @param \Predis\Client|\Redis $redis   The redis instance
+     * @param Client|Redis $redis   The redis instance
      * @param string                $key     The key name to push records to
      * @param string|int            $level   The minimum logging level at which this handler will be triggered
      * @param bool                  $bubble  Whether the messages that are handled can bubble up the stack or not
@@ -41,8 +44,8 @@ class RedisHandler extends AbstractProcessingHandler
      */
     public function __construct($redis, string $key, $level = Logger::DEBUG, bool $bubble = true, int $capSize = 0)
     {
-        if (!(($redis instanceof \Predis\Client) || ($redis instanceof \Redis))) {
-            throw new \InvalidArgumentException('Predis\Client or Redis instance required');
+        if (!(($redis instanceof Client) || ($redis instanceof Redis))) {
+            throw new InvalidArgumentException('Predis\Client or Redis instance required');
         }
 
         $this->redisClient = $redis;
@@ -70,8 +73,8 @@ class RedisHandler extends AbstractProcessingHandler
      */
     protected function writeCapped(array $record): void
     {
-        if ($this->redisClient instanceof \Redis) {
-            $mode = defined('\Redis::MULTI') ? \Redis::MULTI : 1;
+        if ($this->redisClient instanceof Redis) {
+            $mode = defined('\Redis::MULTI') ? Redis::MULTI : 1;
             $this->redisClient->multi($mode)
                 ->rpush($this->redisKey, $record["formatted"])
                 ->ltrim($this->redisKey, -$this->capSize, -1)

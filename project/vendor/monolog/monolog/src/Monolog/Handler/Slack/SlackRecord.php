@@ -15,6 +15,7 @@ use Monolog\Logger;
 use Monolog\Utils;
 use Monolog\Formatter\NormalizerFormatter;
 use Monolog\Formatter\FormatterInterface;
+use function is_string;
 
 /**
  * Slack record utility helping to log to Slack webhooks or API.
@@ -260,7 +261,7 @@ class SlackRecord
     {
         $this->userIcon = $userIcon;
 
-        if (\is_string($userIcon)) {
+        if (is_string($userIcon)) {
             $this->userIcon = trim($userIcon, ':');
         }
 
