@@ -23,7 +23,7 @@ if (isset($_GET['id'])) {
                 </div>
                 <div class="col-md-6 location-2">
                     <h1><?php echo $gin->gin; ?></h1>
-                    <p style="font-size:16px"><?php echo $gin->distillery; ?></p>
+                    <p style="font-size:16px">Distilled by: <?php echo $gin->distillery; ?></p>
                     <?php echo $gin->blurb; ?>
                     <button type="button" class="btn btn-green" data-toggle="modal" data-target="#review">Leave a review</button>
                     <div class="modal fade" id="review" tabindex="-1" role="dialog" aria-labelledby="Label" aria-hidden="true">
