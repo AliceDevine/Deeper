@@ -8,6 +8,8 @@ class Product
     public string $gin;
     public string $distillery;
     public string $image;
+    public string $blurb;
+    public string $serve;
     public ?float $averageRating = null;
     /** @var CheckIn[] */
     private array $checkIns = [];

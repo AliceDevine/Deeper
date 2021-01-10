@@ -1,7 +1,14 @@
 <?php
     include 'setup.php';
     $results = $dbProvider->getProducts();
-?>
+    if (isset($_GET['submit'])) { ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Thank you!</strong> Your review has been added, tried any others?.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php } ?>
 
 <!DOCTYPE html>
 <html>

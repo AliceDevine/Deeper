@@ -14,8 +14,10 @@ class EntityHydrator
         $product->gin = $data['gin'];
         $product->distillery =$data['distillery'];
         $product->image = $data['image'];
+        $product->blurb = $data['blurb'];
+        $product->serve = $data['serve'];
         $product->averageRating = $data['average_rating'];
-        
+
         return $product;
     }
 
@@ -39,6 +41,8 @@ class EntityHydrator
             'gin' => $data[0]['gin'],
             'distillery' => $data[0]['distillery'],
             'image' => $data[0]['image'],
+            'blurb' => $data[0]['blurb'],
+            'serve' => $data[0]['serve'],
             'average_rating' => $data[0]['average_rating'],
         ];
         $product = $this->hydrateProduct($productData);

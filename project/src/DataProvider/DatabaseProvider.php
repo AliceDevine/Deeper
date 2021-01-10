@@ -18,7 +18,7 @@ class DatabaseProvider
 
         try {
             $this->dbh = new PDO(
-                'mysql:dbname=project;host=mysql',
+                'mysql:dbname=project;host=mysql;charset=utf8',
                 $username,
                 $password
             );
@@ -33,19 +33,9 @@ class DatabaseProvider
     public function getProducts(): array
     {
         $stmt = $this->dbh->prepare(
-            'SELECT * from product');
+            'SELECT gin,id,image,distillery from product');
         $stmt->execute();
         // return $stmt->fetchAll(PDO::FETCH_CLASS, Product::class);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, Product::class);
-    }
-    public function searchProducts(string $searchTerm = ''): array
-    {
-        $stmt = $this->dbh->prepare('SELECT * FROM product WHERE gin LIKE :searchTerm or where distillery like :searchTerm');
-        $stmt->execute([
-            'searchTerm' => '%' . $searchTerm . '%'
-        ]);
-
-        /** @var Product[] $products */
         return $stmt->fetchAll(PDO::FETCH_CLASS, Product::class);
     }
 
@@ -53,7 +43,7 @@ class DatabaseProvider
     {
         $stmt = $this->dbh->prepare(
             'SELECT
-                p.id AS product_id, p.distillery, p.gin, p.image,
+                p.id AS product_id, p.distillery, p.gin, p.image, p.blurb, p.serve,
                 c.id, c.name, c.rating, c.review, c.posted,
                 (
                     SELECT AVG(rating)
@@ -76,5 +66,21 @@ class DatabaseProvider
             $hydrator = new EntityHydrator();
             return $hydrator->hydrateProductWithCheckins($productData);
         }
+    }
+    public function addCheckin(array $data,$productId) :void
+    {
+        var_dump($data);
+        $stmt = $this->dbh->prepare(
+            "insert into checkin (product_id,name,review,rating) 
+            values (:pid,:name,:review,:rating)"
+        );
+        $stmt->execute(
+            [
+                'pid' => $productId,
+                'name' => $data['name'],
+                'review' => $data['review'],
+                'rating' => $data['ginRating'],
+            ]
+        );
     }
 }
